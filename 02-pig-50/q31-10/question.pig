@@ -20,3 +20,8 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+v = FOREACH u GENERATE ToDate(birthday,'yyyy-MM-dd') as fecho;
+w = FOREACH v GENERATE ToString(fecho,'yyyy') as anio;
+gw = GROUP w BY anio;
+fw = FOREACH gw GENERATE FLATTEN(group) as (anio), COUNT($1);
+STORE fw INTO 'output' USING PigStorage(',');

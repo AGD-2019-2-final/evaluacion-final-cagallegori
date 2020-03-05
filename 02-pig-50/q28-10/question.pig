@@ -29,4 +29,6 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
-
+fecha = FOREACH u GENERATE birthday,ToDate(birthday,'yyyy-MM-dd') as fecho;
+tupl = FOREACH fecha GENERATE ToString(fecho,'yyyy'),ToString(fecho,'yy');
+STORE tupl INTO 'output' USING PigStorage(',');

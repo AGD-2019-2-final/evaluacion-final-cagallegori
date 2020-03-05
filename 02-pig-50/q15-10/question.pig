@@ -26,4 +26,6 @@ u = LOAD 'data.csv' USING PigStorage(',')
         quantity:INT);
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
---
+nou = FOREACH u GENERATE firstname, color;
+filtro = FILTER nou BY ($1 MATCHES 'blue') AND ($0 >'Z');
+STORE filtro INTO 'output';

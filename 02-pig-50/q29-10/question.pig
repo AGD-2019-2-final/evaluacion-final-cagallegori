@@ -40,3 +40,13 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+fecha = FOREACH u GENERATE birthday,ToDate(birthday,'yyyy-MM-dd') as fecho;
+tupl = FOREACH fecha GENERATE ToString(fecho,'yyyy-MM-dd') as yMd ,LOWER(ToString(fecho,'MMM')) as mmm, ToString(fecho,'MM') as MM,ToString(fecho,'M') as M;
+tuplo = FOREACH tupl GENERATE yMd,
+CASE mmm WHEN 'jan' THEN 'ene'
+         WHEN 'apr' THEN 'abr'
+         WHEN 'aug' THEN 'ago'
+         WHEN 'dec' THEN 'dic'
+         ELSE mmm END,
+MM,M;
+STORE tuplo INTO 'output' USING PigStorage(',');

@@ -40,4 +40,23 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
-
+fecha = FOREACH u GENERATE birthday,ToDate(birthday,'yyyy-MM-dd') as fecho;
+tupl = FOREACH fecha GENERATE ToString(fecho,'yyyy-MM-dd') as yMd ,LOWER(ToString(fecho,'dd')) as dd, ToString(fecho,'d') as d,ToString(fecho,'e') as NumWeek;
+tuplo = FOREACH tupl GENERATE yMd,dd,d,
+CASE NumWeek WHEN '1' THEN 'lun'
+             WHEN '2' THEN 'mar'
+             WHEN '3' THEN 'mie'
+             WHEN '4' THEN 'jue'
+             WHEN '5' THEN 'vie'
+             WHEN '6' THEN 'sab'
+             WHEN '7' THEN 'dom'
+             END,
+CASE NumWeek WHEN '1' THEN 'lunes'
+             WHEN '2' THEN 'martes'
+             WHEN '3' THEN 'miercoles'
+             WHEN '4' THEN 'jueves'
+             WHEN '5' THEN 'viernes'
+             WHEN '6' THEN 'sabado'
+             WHEN '7' THEN 'domingo'
+             END;
+STORE tuplo INTO 'output' USING PigStorage(',');

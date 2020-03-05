@@ -28,3 +28,6 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+nou = FOREACH u GENERATE firstname, color;
+filtro = FILTER nou BY NOT ($1 MATCHES '^[Bb][a-zA-Z0-9.,$;]+$');
+STORE filtro INTO 'output' USING PigStorage(',');

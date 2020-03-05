@@ -39,3 +39,11 @@ LOAD DATA LOCAL INPATH 'tbl1.csv' INTO TABLE tbl1;
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+DROP TABLE IF EXISTS datos1;
+CREATE TABLE datos1 AS SELECT c1,clave,valor FROM tbl1 LATERAL VIEW EXPLODE(c4)exp AS clave,valor;
+DROP TABLE IF EXISTS datos2;
+CREATE TABLE datos2 AS SELECT tbl0.c1, tbl0.c2, datos1.valor FROM tbl0 LEFT JOIN datos1 on (tbl0.c1 = datos1.c1 AND tbl0.c2 = datos1.clave);
+INSERT OVERWRITE LOCAL DIRECTORY 'output'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+SELECT * FROM datos2;

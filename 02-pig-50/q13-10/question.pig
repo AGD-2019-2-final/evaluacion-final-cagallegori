@@ -28,3 +28,6 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+u = FOREACH u GENERATE color;
+filtro = FILTER u BY ($0 > 'b') AND ($0 < 'c');
+STORE filtro INTO 'output';

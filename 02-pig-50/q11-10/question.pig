@@ -38,3 +38,6 @@ u = LOAD 'data.csv' USING PigStorage(',')
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
 --
+u = FOREACH u GENERATE surname,UPPER(surname),LOWER(surname);
+u = ORDER u BY $0;
+STORE u INTO 'output' USING PigStorage(',');
