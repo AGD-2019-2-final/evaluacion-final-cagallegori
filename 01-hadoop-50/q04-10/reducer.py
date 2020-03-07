@@ -4,7 +4,21 @@ import sys
 #
 if __name__ == '__main__':
 
+    clave_act = None
+    total = 0
+
     for line in sys.stdin:
 
-        cont, col1, col2, col3 = line.split(",")
-        sys.stdout.write("{}   {}   {}".format(col1, col2, col3))
+        clave, val = line.split(",")
+        val = int(val)
+
+        if clave == clave_act:
+            total += val
+        else:
+            if clave_act is not None:
+                sys.stdout.write("{},{}\n".format(clave_act, total))
+
+            clave_act = clave
+            total = val
+
+    sys.stdout.write("{},{}\n".format(clave_act, total))

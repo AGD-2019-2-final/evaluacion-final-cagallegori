@@ -9,5 +9,5 @@ if __name__ == "__main__":
         col1 = line[0]
         col2 = line[1]
         col3 = line[2]
-        sys.stdout.write("{},{},{},{}\n".format(col2,col1,col2,col3))
+        sys.stdout.write("{},1\n".format(col1))
 
